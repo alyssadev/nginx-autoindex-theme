@@ -1,0 +1,11 @@
+/* a[href$="/"].link-icon:before, */
+/* a[href$=".html"].link-icon:before, */
+
+a[href$="/"].link-icon:before,
+a.link-icon.link-folder[href]:before {
+  content: "\f07b"; /*Folder*/
+}
+a[href$=".html"].link-icon:before,
+a.link-icon.link-html5[href]:before {
+  content: "\f13b"; /*HTML5*/
+}

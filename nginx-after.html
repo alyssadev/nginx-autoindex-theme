@@ -1,0 +1,89 @@
+    </div>
+    <div id="post-listing">
+    </div>
+  </div>
+</body>
+    <!-- Script -->
+    <script type="text/javascript">
+	var safetext = function(text){
+		var table = {
+			'<': 'lt',
+			'>': 'gt',
+			'"': 'quot',
+			'\'': 'apos',
+			'&': 'amp',
+			'\r': '#10',
+			'\n': '#13'
+		};
+		
+		return text.toString().replace(/[<>"'\r\n&]/g, function(chr){
+			return '&' + table[chr] + ';';
+		});
+	};
+	var pathElement = document.querySelector('#listing h1');
+	pathElement.className = 'listing';
+
+	var pathName = pathElement.innerHTML;
+	pathName = pathName.replace('Index of ', '');
+	pathElement.innerHTML = pathName;
+
+	var fileCount = 0
+	  ,dirCount = 0
+	  ,dirStatElem = document.getElementById('dir-stats')
+	  ,fileStatElem = document.getElementById('file-stats')
+	;
+
+	var allLinks = document.querySelectorAll('a');
+        var post = document.querySelector("#post-listing")
+	for (let item of allLinks){
+	  if (item.innerHTML != "../"){
+	    if (item.innerHTML.endsWith('/')){
+	      dirCount += 1;
+	    }
+	    else {
+	      fileCount += 1;
+	    }
+	    var text = item.nextSibling;
+	    var info_span = document.createElement("span");
+	    info_span.classList.add("info")
+	    info_span.classList.add("fr")
+	    info_span.innerText = text.textContent;
+	    var row = document.createElement("div");
+	    post.appendChild(row)
+	    if (item.href.endsWith("qB")) {
+	      inc_span = document.createElement("span");
+	      inc_span.classList.add("incomplete")
+	      inc_span.classList.add("fl")
+	      inc_span.innerText = item.attributes.href.value;
+	      row.appendChild(inc_span)
+	    } else {
+	      item.classList.add("fl")
+	      item.innerText = safetext(item.attributes.href.value);
+	      row.appendChild(item)
+	    }
+	    row.appendChild(info_span)
+	  }
+	}
+	document.querySelector("#pre-listing").style.display = "none";
+
+	var parentFolderElement = document.querySelector("a[href='../']");
+	parentFolderElement.className = "folderup";
+	parentFolderElement.innerHTML = "&#8682; Up";
+	post.insertBefore(parentFolderElement,post.children[0])
+
+	if (dirCount == 1){
+	  dirStatElem.innerHTML = dirCount + " directory";
+	}
+	else {
+	  dirStatElem.innerHTML = dirCount + " directories";
+	}
+
+	if (fileCount == 1){
+	  fileStatElem.innerHTML = fileCount + " file";
+	}
+	else {
+	  fileStatElem.innerHTML = fileCount + " files";
+	}
+
+    </script>
+</html>
